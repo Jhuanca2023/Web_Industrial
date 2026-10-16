@@ -1,0 +1,63 @@
+---
+import { PRODUCTS } from '../data/products.js';
+const p = PRODUCTS[0];
+---
+    <section class="detail" id="producto" aria-labelledby="pName">
+      <div class="wrap detail__grid">
+        <div class="gallery" id="gallery" aria-roledescription="carrusel" aria-label="Imágenes del producto">
+          <div class="gallery__viewport" id="galleryViewport" tabindex="0">{p.gallery.map((g,i) => <figure class:list={['slide',{'is-contain':g.fit === 'contain'}]}><img src={g.src} alt={g.alt} class:list={{'is-cover':g.fit === 'cover'}} loading={i ? 'lazy' : 'eager'} /></figure>)}</div>
+          <div class="gallery__bar">
+            <div class="gallery__thumbs" id="galleryThumbs"></div>
+            <div class="gallery__ctrl">
+              <button class="icon-btn" type="button" id="prev" aria-label="Imagen anterior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg></button>
+              <button class="icon-btn" type="button" id="next" aria-label="Imagen siguiente"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></button>
+            </div>
+          </div>
+          <p class="sr" id="galleryStatus" aria-live="polite"></p>
+        </div>
+
+        <div class="info" id="info">
+          <h2 id="pName">{p.name}</h2>
+          <div class="rating" id="pRating"></div>
+          <p class="info__sub" id="pSub">{p.sub}</p>
+          <p class="info__desc" id="pDesc">{p.desc}</p>
+          <ul class="tags" id="pUses" role="list">{p.uses.map(use => <li>{use}</li>)}</ul>
+
+          <dl class="quick-specs" id="pQuickSpecs">{p.specs.slice(0,3).map(([key,value]) => <div><dt>{key}</dt><dd>{value}</dd></div>)}</dl>
+
+          <div class="info__cta">
+            <button class="btn btn--accent btn--lg" type="button" id="detailQuote">Solicitar cotización <span aria-hidden="true">→</span></button>
+            <a class="link" href="tel:+520000000000">Llamar a un asesor</a>
+          </div>
+          <button class="document-link" id="openDocuments" type="button">Consultar documentación técnica <span aria-hidden="true">↗</span></button>
+        </div>
+      </div>
+
+      <div class="wrap product-resources">
+        <div class="product-tabs" role="tablist" aria-label="Información del producto">
+          <button id="tab-presentation" role="tab" aria-selected="true" aria-controls="panel-presentation" type="button">Presentación</button>
+          <button id="tab-specs" role="tab" aria-selected="false" aria-controls="panel-specs" tabindex="-1" type="button">Especificaciones</button>
+          <button id="tab-documents" role="tab" aria-selected="false" aria-controls="panel-documents" tabindex="-1" type="button">Documentos <span>4</span></button>
+        </div>
+        <div id="panel-presentation" role="tabpanel" aria-labelledby="tab-presentation" tabindex="0" class="presentation-panel">
+          <div><h3>Diseñado para tu proceso</h3><p id="pPresentation">{p.desc}</p><a class="link" href="#contacto">Recibir asesoría técnica</a></div>
+          <div><h3>Lo que aporta a tu operación</h3><ul class="benefits" id="pBenefits" role="list">{p.benefits.map(benefit => <li>{benefit}</li>)}</ul></div>
+        </div>
+        <div id="panel-specs" role="tabpanel" aria-labelledby="tab-specs" tabindex="0" hidden>
+          <div class="resource-heading"><div><h3>Especificaciones del producto</h3><p>Consulta los datos de configuración antes de solicitar tu cotización.</p></div><button class="btn btn--dark" id="downloadSummary" type="button">Descargar resumen <span aria-hidden="true">↓</span></button></div>
+          <dl class="specs" id="pSpecs">{p.specs.map(([key,value]) => <><dt>{key}</dt><dd>{value}</dd></>)}</dl>
+        </div>
+        <div id="panel-documents" role="tabpanel" aria-labelledby="tab-documents" tabindex="0" hidden>
+          <div class="resource-heading"><div><h3>Biblioteca técnica</h3><p>Fichas de la familia de presión y catálogo general de Euroheaters.</p></div><label class="doc-search">Buscar documento<input id="documentSearch" type="search" placeholder="Nombre o producto…"></label></div>
+          <div class="documents-layout">
+            <aside class="document-filters"><h4>Tipo de documento</h4><label><input type="radio" name="docType" value="all" checked> Todos <span>4</span></label><label><input type="radio" name="docType" value="sheet"> Fichas técnicas <span>3</span></label><label><input type="radio" name="docType" value="catalog"> Catálogos <span>1</span></label><p>Documentos originales en PDF, disponibles para consulta o descarga.</p></aside>
+            <div><p class="document-count" id="documentCount" role="status"></p><ul id="documentList" class="document-list" role="list"></ul><p id="documentsEmpty" class="documents-empty" hidden>No encontramos documentos. Prueba con otro nombre o selecciona «Todos».</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wrap related">
+        <h3>También te puede interesar</h3>
+        <ul class="related__list" id="related" role="list"></ul>
+      </div>
+    </section>

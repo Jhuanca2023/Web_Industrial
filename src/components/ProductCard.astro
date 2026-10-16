@@ -1,0 +1,13 @@
+---
+const { product: p } = Astro.props;
+---
+<li>
+  <article class="pcard" data-id={p.id}>
+    <div class="pcard__media">
+      <span class="stars-pill"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.5.7-5.7 5 1.8 7.4L12 18l-6.6 4 1.8-7.4-5.7-5 7.5-.7z"/></svg>{p.rating.toFixed(1)}</span>
+      <button class="add" type="button" data-add={p.id} aria-label={`Agregar a la cotización: ${p.name}`} aria-pressed="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+      <img src={p.img} alt={p.name} class:list={{'is-cover':p.cover}} loading="lazy" />
+    </div>
+    <div class="pcard__body"><h3>{p.name}</h3><p>{p.short}</p><button class="view" type="button" data-view={p.id}>Ver detalle</button></div>
+  </article>
+</li>

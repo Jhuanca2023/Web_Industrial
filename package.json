@@ -1,17 +1,21 @@
 {
-  "name": "red-rotation",
+  "name": "web-industrial",
   "type": "module",
   "version": "0.0.1",
   "engines": {
-    "node": ">=22.22.0"
+    "node": ">=24.0.0"
   },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "check:build": "node scripts/check-build.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.4.0"
+    "@fontsource/plus-jakarta-sans": "5.3.0",
+    "astro": "7.4.0",
+    "gsap": "3.12.5",
+    "lenis": "1.1.13"
   }
 }

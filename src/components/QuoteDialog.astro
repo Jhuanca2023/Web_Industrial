@@ -1,0 +1,16 @@
+<!-- Cotización -->
+  <dialog class="quote" id="quote" aria-labelledby="quoteTitle">
+    <form class="quote__form" id="quoteForm" method="dialog">
+      <h2 id="quoteTitle">Tu cotización</h2>
+      <p class="quote__note">Formulario de prueba. Puedes completar los campos para probar la experiencia; no se enviarán datos.</p>
+      <ul class="qlist" id="qlist" role="list"></ul>
+      <p class="qempty" id="qempty">Aún no agregas productos. Elige alguno del catálogo.</p>
+      <label>Nombre<input name="nombre" placeholder="Tu nombre completo" required autocomplete="name"></label>
+      <label>Empresa<input name="empresa" placeholder="Nombre de tu empresa" autocomplete="organization"></label>
+      <label>Correo<input name="correo" placeholder="nombre@empresa.com" type="email" required autocomplete="email"></label>
+      <div class="quote__actions">
+        <button class="btn btn--accent" type="submit">Probar solicitud</button>
+        <button class="btn btn--ghost" type="button" id="quoteClose">Cerrar</button>
+      </div>
+    </form>
+  </dialog>

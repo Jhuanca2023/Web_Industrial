@@ -1,11 +1,29 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import SiteHeader from '../components/SiteHeader.astro';
+import Hero from '../components/Hero.astro';
+import ProductCatalog from '../components/ProductCatalog.astro';
+import ProductDetail from '../components/ProductDetail.astro';
+import CatalogBanner from '../components/CatalogBanner.astro';
+import CompanySection from '../components/CompanySection.astro';
+import ContactSection from '../components/ContactSection.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import BackToTop from '../components/BackToTop.astro';
+import QuoteDialog from '../components/QuoteDialog.astro';
 ---
-
 <Layout>
-	<Welcome />
+  <SiteHeader />
+  <main>
+    <Hero />
+    <ProductCatalog />
+    <ProductDetail />
+    <CatalogBanner />
+    <CompanySection />
+    <ContactSection />
+  </main>
+  <SiteFooter />
+  <BackToTop />
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <QuoteDialog />
+  <script>import '../scripts/main.js';</script>
 </Layout>

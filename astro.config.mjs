@@ -1,5 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// https://astro.build/config
-export default defineConfig({});
+// Static output: Netlify serves the whole template without server functions.
+export default defineConfig({
+  output: 'static',
+  devToolbar: { enabled: false },
+});
