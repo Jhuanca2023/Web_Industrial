@@ -1,4 +1,5 @@
 import { gsap } from 'gsap';
+import { initMotion } from './motion.js';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { PRODUCTS, CATS } from '../data/products.js';
@@ -201,6 +202,7 @@ document.documentElement.classList.add('js');
   }
   $("#related").addEventListener("click", (e) => { const b = e.target.closest(".mini"); if (b) selectProduct(b.dataset.id, false); });
   renderInfo(state.current);
+  $('#stageProductLink').addEventListener('click', () => selectProduct('temperatura', false));
 
   /* ---------- Recursos técnicos ---------- */
   const tabs = $$(".product-tabs [role=tab]");
@@ -330,6 +332,7 @@ document.documentElement.classList.add('js');
   document.addEventListener('click', e => { if(!menu.contains(e.target)) menu.open = false; });
   // Native FAQ semantics; refresh geometry after disclosures change.
   $$('details').forEach(el => el.addEventListener('toggle', () => ScrollTrigger.refresh()));
+  initMotion({ gsap, ScrollTrigger, reduce, hoverFine });
   if (reduce) return;
   if (hoverFine) {
     lenis = new Lenis({lerp:0.1,anchors:{offset:-90},prevent:node => node.closest('dialog')});
@@ -338,14 +341,13 @@ document.documentElement.classList.add('js');
     gsap.ticker.lagSmoothing(0);
   }
   gsap.from('.hero-content > *', {y:44,opacity:0,duration:1,stagger:0.13,ease:'power3.out',clearProps:'transform,opacity'});
-  gsap.from('.hero-photo img', {scale:1.12,duration:1.8,ease:'power2.out'});
+
   gsap.to('.hero-photo', {yPercent:16,ease:'none',scrollTrigger:{trigger:'.industrial-hero',start:'top top',end:'bottom top',scrub:true}});
-  $$('[data-reveal]').forEach(el => gsap.from(el, {y:32,opacity:0,duration:0.75,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 94%',once:true},clearProps:'transform,opacity'}));
+  $$('[data-reveal]').forEach(el => gsap.from(el, {y:65,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 94%',once:true},clearProps:'transform,opacity'}));
   $$('.photo-reveal').forEach(el => {
     gsap.from(el, {clipPath:'inset(0 0 14% 0)',duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 90%',once:true},clearProps:'clipPath'});
     gsap.fromTo($('img',el),{scale:1.1},{scale:1,ease:'none',scrollTrigger:{trigger:el,start:'top bottom',end:'bottom top',scrub:0.7}});
   });
-  gsap.fromTo('.story-photo img',{scale:1.18,yPercent:-5},{scale:1,yPercent:5,ease:'none',scrollTrigger:{trigger:'.industry-story',start:'top bottom',end:'bottom top',scrub:0.8}});
   gsap.from('.workflow-grid article',{y:40,opacity:0,stagger:0.16,duration:0.7,ease:'power3.out',scrollTrigger:{trigger:'.workflow-grid',start:'top 90%',once:true},clearProps:'transform,opacity'});
   gsap.from('.foot__name',{yPercent:30,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:'.foot__name',start:'top 98%',once:true},clearProps:'transform,opacity'});
   document.fonts.ready.then(() => ScrollTrigger.refresh());

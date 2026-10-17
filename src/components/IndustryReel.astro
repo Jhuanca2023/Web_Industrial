@@ -1,0 +1,15 @@
+---
+const scenes = [
+ {image:'ensamble.jpg',name:'Movimiento coordinado.',type:'AUTOMATIZACIÓN',text:'Cada componente forma parte de un sistema.',alt:'Robots de ensamblaje trabajando en una línea industrial'},
+ {image:'precision.jpg',name:'El valor del detalle.',type:'MECANIZADO',text:'Precisión en cada superficie. Consistencia en cada pieza.',alt:'Herramienta industrial mecanizando una pieza de metal'},
+ {image:'equipo.jpg',name:'Personas detrás del proceso.',type:'OPERACIÓN',text:'El conocimiento conecta la tecnología con su aplicación.',alt:'Operario trabajando con maquinaria en una fábrica'},
+ {image:'robotica.jpg',name:'Conecta el siguiente ciclo.',type:'CONTROL',text:'Medición y control para entender lo que sucede en planta.',alt:'Brazos robóticos junto a paneles de control'}
+];
+---
+<section class="industry-reel" id="industria" aria-labelledby="reelTitle">
+ <div class="wrap reel-heading"><div><p class="eyebrow">LA INDUSTRIA NO SE DETIENE</p><h2 id="reelTitle">Y nosotros miramos<br /><em>hacia adelante.</em></h2></div><div><p>Una mirada a los procesos<br />que transforman nuestro mundo.</p><div class="reel-controls"><button type="button" id="reelPrev" aria-label="Fotografía anterior">←</button><span id="reelStatus" aria-live="polite">01 / 04</span><button type="button" id="reelNext" aria-label="Fotografía siguiente">→</button></div></div></div>
+ <div class="reel-track" id="reelTrack" tabindex="0" aria-label="Galería industrial; desliza o usa las flechas" aria-roledescription="carrusel">
+  {scenes.map((s,i) => <article class="reel-card" aria-roledescription="diapositiva" aria-label={`${i+1} de ${scenes.length}`}><div class="reel-image"><img src={'/img/'+s.image} alt={s.alt} width="1800" height="1200" loading="lazy" /><span class="reel-number">0{i+1}</span></div><div class="reel-copy"><div><span>{s.type}</span><h3>{s.name}</h3></div><p>{s.text}</p></div></article>)}
+ </div>
+ <div class="wrap reel-footer"><p>DESLIZA PARA CAMBIAR DE PERSPECTIVA</p><div class="reel-dots" aria-label="Seleccionar fotografía">{scenes.map((s,i)=><button type="button" aria-label={`Ver ${s.type.toLowerCase()}`} aria-pressed={i===0} data-reel={i}></button>)}</div></div>
+</section>

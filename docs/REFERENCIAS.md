@@ -15,6 +15,14 @@ Tipografía: Plus Jakarta Sans, distribuida mediante `@fontsource/plus-jakarta-s
 
 No se aplica una licencia única sobre fotografías, fichas, documentación e imágenes de terceros.
 
+## Referencias de movimiento
+
+- [Lusion](https://lusion.co/): presentación inmersiva y profundidad visual; referencia conceptual, sin reutilizar código ni activos.
+- [GSAP Scroll](https://gsap.com/scroll/): escenas fijadas, animaciones vinculadas al desplazamiento y adaptación mediante matchMedia.
+- [Made With GSAP](https://madewithgsap.com/effects/): colección de transiciones de scroll, arrastre y movimiento del puntero.
+
+La escena KRONO utiliza la fotografía existente del controlador, recortada por CSS para su presentación. Las órbitas y la perspectiva son elementos de interfaz originales, no características del equipo.
+
 ## Fotografía añadida para KRONO
 
 Fotografías gratuitas de Pexels, descargadas localmente y encuadradas mediante CSS. Uso sujeto a la licencia de Pexels: https://www.pexels.com/license/. No representan instalaciones de KRONO.

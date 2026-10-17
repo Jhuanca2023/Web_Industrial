@@ -63,6 +63,16 @@ docs/             Notas y referencias
 - Fuentes locales y botón de regreso al inicio con progreso de lectura.
 - Soporte de movimiento reducido y navegación por teclado.
 
+## Escenas de movimiento
+
+- Banner con tres fotografías, transiciones GSAP, zoom lento, selección manual y pausa. La reproducción automática se detiene fuera de pantalla, al enfocar sus controles o al ocultar la pestaña.
+- Presentación del controlador con recorte CSS, perspectiva al mover el puntero, flotación y una secuencia ligada al scroll. La escena se fija solo en escritorio; en móvil conserva el desplazamiento normal. Es una composición de fotografía con profundidad CSS, no un modelo 3D del fabricante.
+- Galería industrial de cuatro escenas con scroll-snap, arrastre de ratón, desplazamiento táctil, botones, indicadores y teclado.
+- Cinta de especialidades con control de pausa. Las animaciones decorativas se suspenden fuera del área visible.
+- Con movimiento reducido se mantienen imágenes, enlaces y controles, sin secuencias de scroll ni reproducción automática inicial.
+
+La implementación está separada en `src/scripts/motion.js`, `src/styles/motion.css`, `ProductStage.astro` e `IndustryReel.astro`.
+
 ## Identidad y alcance
 
 KRONO Industrial es una marca conceptual para un proyecto de portafolio. El logotipo K es SVG original. No se presentan clientes, valoraciones ni estadísticas ficticias. La fotografía de contexto ilustra procesos industriales y no representa instalaciones propias de KRONO.
