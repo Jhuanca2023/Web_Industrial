@@ -16,15 +16,13 @@ document.documentElement.classList.add('js');
 
   const state = { cat: "todos", q: "", sort: "rel", current: PRODUCTS[0], quote: [] };
   try {
-    const saved = JSON.parse(localStorage.getItem('pruebaweb:quote') || '[]');
+    const saved = JSON.parse(localStorage.getItem('krono:quote') || '[]');
     if (Array.isArray(saved)) state.quote = [...new Set(saved.filter(id => byId(id)))];
   } catch { /* Storage is optional in private or restricted browser sessions. */ }
   let lenis = null;
 
   const norm = (s) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
   const escapeHTML = (s) => s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  const stars = (r) => `<span class="stars" style="--p:${(r / 5) * 100}%" role="img" aria-label="${r} de 5 estrellas"></span>`;
-  const starIcon = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3 6.9 7.500.7-5.700 5 1.800 7.400L12 18l-6.600 4 1.800-7.400-5.700-5 7.500-.7z"/></svg>`;
   const cover = (p) => (p.cover ? ` class="is-cover"` : "");
 
   function scrollToEl(el, offset = -90) {
@@ -51,7 +49,6 @@ document.documentElement.classList.add('js');
     const q = norm(state.q.trim());
     let list = PRODUCTS.filter((p) => (state.cat === "todos" || p.cat === state.cat) &&
       (!q || norm([p.name, p.sub, p.short, catLabel(p.cat), ...p.uses].join(" ")).includes(q)));
-    if (state.sort === "rating") list = [...list].sort((a, b) => b.rating - a.rating);
     if (state.sort === "az") list = [...list].sort((a, b) => a.name.localeCompare(b.name, "es"));
     return list;
   }
@@ -62,7 +59,6 @@ document.documentElement.classList.add('js');
       <li>
         <article class="pcard" data-id="${p.id}">
           <div class="pcard__media">
-            <span class="stars-pill">${starIcon}${p.rating.toFixed(1)}</span>
             <button class="add${state.quote.includes(p.id) ? " is-added" : ""}" type="button" data-add="${p.id}" aria-label="${state.quote.includes(p.id) ? "Quitar de" : "Agregar a"} la cotización: ${p.name}" aria-pressed="${state.quote.includes(p.id)}">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">${state.quote.includes(p.id) ? '<path d="M5 12.5l4.500 4.500L19 7"/>' : '<path d="M12 5v14M5 12h14"/>'}</svg>
             </button>
@@ -121,7 +117,7 @@ document.documentElement.classList.add('js');
   function closeSuggest() { suggest.hidden = true; searchInput.setAttribute("aria-expanded", "false"); }
   function openSuggest(list) {
     suggest.innerHTML = list.length
-      ? list.slice(0, 6).map((p) => `<li role="option"><button type="button" data-pick="${p.id}"><img src="${p.img}" alt=""${cover(p)}><span><strong>${p.name}</strong><small>${catLabel(p.cat)} · ★ ${p.rating.toFixed(1)}</small></span></button></li>`).join("")
+      ? list.slice(0, 6).map((p) => `<li role="option"><button type="button" data-pick="${p.id}"><img src="${p.img}" alt=""${cover(p)}><span><strong>${p.name}</strong><small>${catLabel(p.cat)}</small></span></button></li>`).join("")
       : `<li class="none">Sin resultados para «${escapeHTML(state.q)}»</li>`;
     suggest.hidden = false;
     searchInput.setAttribute("aria-expanded", "true");
@@ -181,7 +177,6 @@ document.documentElement.classList.add('js');
   });
 
   function renderInfo(p) {
-    $("#pRating").innerHTML = `${stars(p.rating)} ${p.rating.toFixed(1)} <small>· valoración de ejemplo</small>`;
     $("#pName").textContent = p.name;
     $("#pSub").textContent = p.sub;
     $("#pDesc").textContent = p.desc;
@@ -261,11 +256,18 @@ document.documentElement.classList.add('js');
   $$("input[name=docType]").forEach(input => input.addEventListener("change", renderDocuments));
   renderDocuments();
 
+  function downloadRequest(form, products = []) {
+    const data = new FormData(form);
+    const lines = ['KRONO INDUSTRIAL — SOLICITUD', '', ...[...data].map(([key,value]) => key.toUpperCase()+': '+value), '', 'PRODUCTOS', ...products, '', 'Documento preparado localmente. Confirmar especificaciones y disponibilidad con el proveedor.'];
+    const url = URL.createObjectURL(new Blob(['\ufeff', lines.join('\n')], {type:'text/plain;charset=utf-8'}));
+    const a = document.createElement('a'); a.href = url; a.download = 'solicitud-krono.txt'; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
   /* ---------- Cotización ---------- */
   const dlg = $("#quote");
   const countEl = $("#quoteCount");
   function renderQuote() {
-    try { localStorage.setItem('pruebaweb:quote', JSON.stringify(state.quote)); } catch { /* Keep the in-memory selection available. */ }
+    try { localStorage.setItem('krono:quote', JSON.stringify(state.quote)); } catch { /* Keep the in-memory selection available. */ }
     countEl.textContent = state.quote.length;
     $("#qlist").innerHTML = state.quote.map((id) => { const p = byId(id); return `<li><img src="${p.img}" alt=""${cover(p)}><strong>${p.name}</strong><button type="button" data-rm="${id}" aria-label="Quitar ${p.name}">×</button></li>`; }).join("");
     $("#qempty").hidden = state.quote.length > 0;
@@ -287,200 +289,66 @@ document.documentElement.classList.add('js');
   $("#qlist").addEventListener("click", (e) => { const b = e.target.closest("[data-rm]"); if (b) { state.quote = state.quote.filter((x) => x !== b.dataset.rm); renderQuote(); renderGrid(false); } });
   $("#quoteForm").addEventListener("submit", (e) => {
     e.preventDefault();
+    downloadRequest(e.target, state.quote.map(id => byId(id).name));
     dlg.close();
-    say("Prueba completada. No se enviaron datos.");
+    say("Solicitud descargada. Lista para compartir.");
   });
 
   /* ---------- Contacto ---------- */
   $("#contactProduct").innerHTML = `<option value="">Aún no lo sé</option>` + PRODUCTS.map((p) => `<option>${p.name}</option>`).join("");
   $("#contactForm").addEventListener("submit", (e) => {
     e.preventDefault();
-    say("Consulta de prueba completada. No se enviaron datos.");
+    downloadRequest(e.target);
+    say("Consulta descargada. Lista para compartir.");
   });
 
   renderGrid(false);
   renderQuote();
 
-  /* ---------- Hero: banners ---------- */
-  const slides = $$(".hs");
-  const bars = $$("#heroBars button");
-  let cur = 0, busy = false, auto = null, hovering = false;
-
-  function labelSlides() {
-    slides.forEach((s, i) => {
-      const on = i === cur;
-      s.classList.toggle("is-active", on);
-      s.setAttribute("aria-hidden", String(!on));
-      $$("a, button", s).forEach((el) => (on ? el.removeAttribute("tabindex") : el.setAttribute("tabindex", "-1")));
-    });
-    bars.forEach((b, i) => b.setAttribute("aria-selected", String(i === cur)));
-  }
-  function startAuto() {
-    if (!canAnimate) return;
-    auto?.kill();
-    const bar = bars[cur];
-    gsap.set(bars, { "--p": 0 });
-    auto = gsap.to(bar, { "--p": 1, duration: 6.5, ease: "none", onComplete: () => go(cur + 1) });
-    if (hovering) auto.pause();
-  }
-  function go(n) {
-    n = (n + slides.length) % slides.length;
-    if (n === cur || busy) return;
-    const from = slides[cur], to = slides[n];
-    const dir = n > cur || (cur === slides.length - 1 && n === 0) ? 1 : -1;
-    if (!canAnimate) { cur = n; labelSlides(); return; }
-    busy = true; auto?.kill();
-    const outEls = [...from.querySelectorAll(".hs__copy > *"), from.querySelector(".vis")];
-    gsap.timeline({ onComplete: () => { gsap.set(from, { visibility: "hidden" }); gsap.set(outEls, { clearProps: "all" }); busy = false; startAuto(); } })
-      .to(outEls, { y: -24, autoAlpha: 0, duration: 0.3, stagger: 0.04, ease: "power2.in" })
-      .add(() => {
-        cur = n; labelSlides();
-        gsap.set(to, { visibility: "visible" });
-        const t = to.querySelector(".vis");
-        gsap.fromTo(to.querySelectorAll(".hs__copy > *"), { y: 36, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.09, ease: "power3.out" });
-        gsap.fromTo(t, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 });
-        gsap.fromTo($(".vis__main", t), { clipPath: dir > 0 ? "inset(0 0 0 100% round 40px)" : "inset(0 100% 0 0 round 40px)" }, { clipPath: "inset(0 0% 0 0% round 40px)", duration: 0.9, ease: "power3.inOut" });
-        gsap.fromTo($(".vis__main img", t), { scale: 1.25 }, { scale: 1, duration: 1.4, ease: "power3.out" });
-        gsap.fromTo($(".vis__circle", t), { scale: 0.6, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.7, delay: 0.35, ease: "back.out(1.6)" });
-        gsap.fromTo($(".vis__note", t), { y: 24, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.6, delay: 0.55, ease: "power3.out" });
-      });
-  }
-  $("#heroNext").addEventListener("click", () => go(cur + 1));
-  $("#heroPrev").addEventListener("click", () => go(cur - 1));
-  bars.forEach((b, i) => b.addEventListener("click", () => go(i)));
-  const heroEl = $(".hero");
-  heroEl.addEventListener("pointerenter", () => { hovering = true; auto?.pause(); });
-  heroEl.addEventListener("pointerleave", () => { hovering = false; auto?.resume(); });
-  let sx = null;
-  $("#heroSlides").addEventListener("pointerdown", (e) => { sx = e.clientX; });
-  $("#heroSlides").addEventListener("pointerup", (e) => { if (sx !== null && Math.abs(e.clientX - sx) > 60) go(cur + (e.clientX < sx ? 1 : -1)); sx = null; });
-  document.addEventListener("visibilitychange", () => { document.hidden ? auto?.pause() : (!hovering && auto?.resume()); });
-  labelSlides();
-
-  /* ---------- Contadores (valor final si no hay animación) ---------- */
-  const counters = $$("[data-count]");
-  const fmt = (n, el) => Math.round(n).toLocaleString("es-MX") + (el.dataset.suffix || "");
-  if (!canAnimate) counters.forEach((el) => (el.textContent = fmt(+el.dataset.count, el)));
-
-  /* ---------- Regreso al inicio con progreso de lectura ---------- */
-  const backTop = $("#backTop");
-  const scrollRing = $("#scrollRing");
+  // A single reading indicator: the back-to-top ring.
+  const backTop = $('#backTop');
   let progressFrame = 0;
-  function updateScrollProgress() {
+  function progress() {
     progressFrame = 0;
     const max = document.documentElement.scrollHeight - innerHeight;
-    const progress = max > 0 ? Math.max(0, Math.min(1, scrollY / max)) : 0;
-    scrollRing.style.strokeDashoffset = String(100 * (1 - progress));
-    backTop.classList.toggle("is-visible", scrollY > 160);
-    $(".progress i").style.transform = `scaleX(${progress})`;
+    $('#scrollRing').style.strokeDashoffset = String(100 * (1 - Math.min(1, Math.max(0, max ? scrollY / max : 0))));
+    backTop.classList.toggle('is-visible', scrollY > 160);
   }
-  function scheduleProgress() {
-    if (!progressFrame) progressFrame = requestAnimationFrame(updateScrollProgress);
-  }
-  window.addEventListener("scroll", scheduleProgress, { passive: true });
-  window.addEventListener("resize", scheduleProgress);
-  new ResizeObserver(scheduleProgress).observe(document.body);
-  backTop.addEventListener("click", () => {
-    if (lenis) lenis.scrollTo(0, { immediate: reduce });
-    else window.scrollTo({ top: 0, behavior: reduce ? "instant" : "smooth" });
-    $(".nav .logo").focus({ preventScroll: true });
+  const schedule = () => { if (!progressFrame) progressFrame = requestAnimationFrame(progress); };
+  addEventListener('scroll', schedule, {passive:true});
+  addEventListener('resize', schedule);
+  new ResizeObserver(schedule).observe(document.body);
+  backTop.addEventListener('click', () => {
+    if (lenis) lenis.scrollTo(0); else window.scrollTo({top:0,behavior:reduce?'instant':'smooth'});
+    $('.nav .logo').focus({preventScroll:true});
   });
-  updateScrollProgress();
+  progress();
 
-  /* ---------- Movimiento global ---------- */
-  if (!gsap || !ScrollTrigger) return;
-  gsap.registerPlugin(ScrollTrigger);
-
-  if (!reduce && Lenis) {
-    lenis = new Lenis({ lerp: 0.1, anchors: { offset: -90 } });
-    lenis.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add((t) => lenis.raf(t * 1000));
+  const menu = $('.mobile-menu');
+  $$('.mobile-menu a').forEach(link => link.addEventListener('click', () => { menu.open = false; }));
+  document.addEventListener('keydown', e => { if(e.key === 'Escape' && menu.open) { menu.open = false; $('summary',menu).focus(); } });
+  document.addEventListener('click', e => { if(!menu.contains(e.target)) menu.open = false; });
+  // Native FAQ semantics; refresh geometry after disclosures change.
+  $$('details').forEach(el => el.addEventListener('toggle', () => ScrollTrigger.refresh()));
+  if (reduce) return;
+  if (hoverFine) {
+    lenis = new Lenis({lerp:0.1,anchors:{offset:-90},prevent:node => node.closest('dialog')});
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(t => lenis.raf(t*1000));
     gsap.ticker.lagSmoothing(0);
   }
-  if (reduce) return;
-
-  /* nav: se oculta al bajar, vuelve al subir */
-  const nav = $("#nav");
-  let lastY = 0;
-  ScrollTrigger.create({
-    start: 0, end: "max",
-    onUpdate: (self) => {
-      const y = self.scroll();
-      nav.classList.toggle("is-hidden", y > lastY && y > 400 && !$("#searchInput:focus"));
-      lastY = y;
-    }
+  gsap.from('.hero-content > *', {y:44,opacity:0,duration:1,stagger:0.13,ease:'power3.out',clearProps:'transform,opacity'});
+  gsap.from('.hero-photo img', {scale:1.12,duration:1.8,ease:'power2.out'});
+  gsap.to('.hero-photo', {yPercent:16,ease:'none',scrollTrigger:{trigger:'.industrial-hero',start:'top top',end:'bottom top',scrub:true}});
+  $$('[data-reveal]').forEach(el => gsap.from(el, {y:32,opacity:0,duration:0.75,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 94%',once:true},clearProps:'transform,opacity'}));
+  $$('.photo-reveal').forEach(el => {
+    gsap.from(el, {clipPath:'inset(0 0 14% 0)',duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 90%',once:true},clearProps:'clipPath'});
+    gsap.fromTo($('img',el),{scale:1.1},{scale:1,ease:'none',scrollTrigger:{trigger:el,start:'top bottom',end:'bottom top',scrub:0.7}});
   });
-
-  /* banner superior rotativo */
-  const msgs = $$("#topMsgs p");
-  gsap.set(msgs.slice(1), { yPercent: 100, opacity: 1 });
-  let mi = 0;
-  gsap.delayedCall(3.2, function rot() {
-    const a = msgs[mi], b = msgs[(mi + 1) % msgs.length];
-    gsap.set(b, { yPercent: 100 });
-    gsap.to(a, { yPercent: -100, duration: 0.6, ease: "power3.inOut" });
-    gsap.to(b, { yPercent: 0, duration: 0.6, ease: "power3.inOut" });
-    mi = (mi + 1) % msgs.length;
-    gsap.delayedCall(3.2, rot);
-  });
-
-  /* hero: entrada inicial y parallax al bajar */
-  const first = slides[0];
-  gsap.from(first.querySelectorAll(".hs__copy > *"), { y: 40, autoAlpha: 0, duration: 0.9, stagger: 0.1, ease: "power3.out", delay: 0.1 });
-  gsap.from($(".vis__main", first), { clipPath: "inset(0 0 0 100% round 40px)", duration: 1.1, ease: "power3.inOut", delay: 0.1 });
-  gsap.from($(".vis__main img", first), { scale: 1.25, duration: 1.6, ease: "power3.out", delay: 0.1 });
-  gsap.from($(".vis__circle", first), { scale: 0.6, autoAlpha: 0, duration: 0.8, ease: "back.out(1.6)", delay: 0.8 });
-  gsap.from($(".vis__note", first), { y: 24, autoAlpha: 0, duration: 0.6, ease: "power3.out", delay: 1 });
-  gsap.to(".hs .vis__main img", { yPercent: 8, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
-  startAuto();
-
-  /* palabras de los títulos */
-  $$("[data-split]").forEach((h) => {
-    h.innerHTML = h.textContent.trim().split(/\s+/).map((w) => `<span class="w"><span>${w}</span></span>`).join(" ");
-    gsap.from($$(".w > span", h), { yPercent: 115, duration: 0.9, stagger: 0.06, ease: "power4.out", scrollTrigger: { trigger: h, start: "top 88%", once: true } });
-  });
-
-  /* revelados */
-  gsap.set("[data-reveal]", { y: 28, autoAlpha: 0 });
-  ScrollTrigger.batch("[data-reveal]", { start: "top 90%", once: true, onEnter: (els) => gsap.to(els, { y: 0, autoAlpha: 1, duration: 0.7, stagger: 0.08, ease: "power3.out", overwrite: true }) });
-
-  /* tarjetas del catálogo: primera entrada al hacer scroll */
-  gsap.set(".pcard", { y: 40, autoAlpha: 0 });
-  ScrollTrigger.batch(".pcard", { start: "top 94%", once: true, onEnter: (els) => gsap.to(els, { y: 0, autoAlpha: 1, duration: 0.65, stagger: 0.07, ease: "power3.out", clearProps: "transform" }) });
-
-  /* galería del detalle: se expande */
-  const narrow = matchMedia("(max-width: 720px)").matches;
-  gsap.fromTo(".gallery__viewport", { clipPath: "inset(10% 10% 10% 10% round 48px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px)", ease: "power2.out", scrollTrigger: { trigger: ".detail__grid", start: "top 88%", end: "top 35%", scrub: 0.5 } });
-  gsap.fromTo(".slide:first-child img", { scale: 1.2 }, { scale: 1, ease: "power2.out", scrollTrigger: { trigger: ".detail__grid", start: "top 88%", end: "top 35%", scrub: 0.5 } });
-
-  /* banner de catálogo */
-  gsap.fromTo("[data-promo]", { scale: 0.94, y: 40 }, { scale: 1, y: 0, ease: "power2.out", scrollTrigger: { trigger: "[data-promo]", start: "top 95%", end: "top 45%", scrub: 0.5 } });
-  gsap.from(".promo__imgs img", { y: 90, autoAlpha: 0, rotate: 0, duration: 0.9, stagger: 0.12, ease: "back.out(1.4)", scrollTrigger: { trigger: "[data-promo]", start: "top 70%", once: true } });
-  $$(".promo__imgs img").forEach((im, i) => gsap.to(im, { y: i % 2 ? 10 : -10, duration: 2.4 + i * 0.4, ease: "sine.inOut", yoyo: true, repeat: -1, delay: 1.2 }));
-
-  /* crecimiento: imagen que se expande + contadores */
-  gsap.timeline({ defaults: { ease: "none" }, scrollTrigger: { trigger: ".proof", start: "top top+=76", end: "bottom bottom", scrub: 0.6 } })
-    .fromTo("[data-proof-media]", { clipPath: narrow ? "inset(26% 8% 26% 8% round 32px)" : "inset(20% 24% 20% 24% round 56px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px)", ease: "power2.inOut", duration: 0.55 }, 0)
-    .fromTo("[data-proof-media] img", { scale: 1.4 }, { scale: 1, ease: "power2.out", duration: 0.7 }, 0)
-    .fromTo(".proof h2", { y: 40, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.2, ease: "power2.out" }, 0.38)
-    .fromTo(".stats li", { y: 36, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.18, stagger: 0.06, ease: "power2.out" }, 0.52);
-  ScrollTrigger.create({
-    trigger: ".proof", start: () => `top+=${innerHeight * 0.55} top+=76`, once: true,
-    onEnter: () => counters.forEach((el) => {
-      const o = { v: 0 };
-      gsap.to(o, { v: +el.dataset.count, duration: 1.8, ease: "power2.out", onUpdate: () => (el.textContent = fmt(o.v, el)) });
-    })
-  });
-
-  /* contacto: la imagen se abre y el círculo aparece */
-  const cv = "[data-contact-vis]";
-  gsap.fromTo(`${cv} .vis__main`, { clipPath: "inset(14% 14% 14% 14% round 48px)" }, { clipPath: "inset(0% 0% 0% 0% round 48px)", ease: "power2.out", scrollTrigger: { trigger: cv, start: "top 90%", end: "top 35%", scrub: 0.5 } });
-  gsap.fromTo(`${cv} .vis__main img`, { scale: 1.25 }, { scale: 1, ease: "power2.out", scrollTrigger: { trigger: cv, start: "top 90%", end: "top 35%", scrub: 0.5 } });
-  gsap.from(`${cv} .vis__circle`, { scale: 0.6, autoAlpha: 0, duration: 0.8, ease: "back.out(1.6)", scrollTrigger: { trigger: cv, start: "top 60%", once: true } });
-  gsap.from(`${cv} .vis__note`, { y: 28, autoAlpha: 0, duration: 0.7, delay: 0.2, ease: "power3.out", scrollTrigger: { trigger: cv, start: "top 60%", once: true } });
-
-  /* pie: el nombre sube */
-  gsap.from(".foot__name", { yPercent: 40, autoAlpha: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: ".foot__name", start: "top 98%", once: true } });
-
-  addEventListener("load", () => ScrollTrigger.refresh());
+  gsap.fromTo('.story-photo img',{scale:1.18,yPercent:-5},{scale:1,yPercent:5,ease:'none',scrollTrigger:{trigger:'.industry-story',start:'top bottom',end:'bottom top',scrub:0.8}});
+  gsap.from('.workflow-grid article',{y:40,opacity:0,stagger:0.16,duration:0.7,ease:'power3.out',scrollTrigger:{trigger:'.workflow-grid',start:'top 90%',once:true},clearProps:'transform,opacity'});
+  gsap.from('.foot__name',{yPercent:30,opacity:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:'.foot__name',start:'top 98%',once:true},clearProps:'transform,opacity'});
+  document.fonts.ready.then(() => ScrollTrigger.refresh());
+  addEventListener('load', () => ScrollTrigger.refresh());
 })();
+

@@ -5,7 +5,8 @@ import '@fontsource/plus-jakarta-sans/latin-600.css';
 import '@fontsource/plus-jakarta-sans/latin-700.css';
 import '@fontsource/plus-jakarta-sans/latin-800.css';
 import '../styles/global.css';
-const { title = 'PruebaWeb · Controladores, resistencias y sensores', description = 'Prueba técnica de una sección industrial. Explora productos, consulta fichas técnicas y prueba la cotización.' } = Astro.props;
+import '../styles/krono.css';
+const { title = 'KRONO Industrial · Ingeniería en movimiento', description = 'Control térmico, sensores y componentes industriales. Explora soluciones, consulta fichas técnicas y prepara tu selección de productos.' } = Astro.props;
 ---
 <!doctype html>
 <html lang="es">
@@ -19,7 +20,6 @@ const { title = 'PruebaWeb · Controladores, resistencias y sensores', descripti
   </head>
   <body>
     <a class="skip" href="#catalogo">Ir al catálogo</a>
-    <div class="progress" aria-hidden="true"><i></i></div>
     <slot />
   </body>
 </html>

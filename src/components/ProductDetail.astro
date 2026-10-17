@@ -18,7 +18,7 @@ const p = PRODUCTS[0];
 
         <div class="info" id="info">
           <h2 id="pName">{p.name}</h2>
-          <div class="rating" id="pRating"></div>
+          
           <p class="info__sub" id="pSub">{p.sub}</p>
           <p class="info__desc" id="pDesc">{p.desc}</p>
           <ul class="tags" id="pUses" role="list">{p.uses.map(use => <li>{use}</li>)}</ul>
@@ -27,7 +27,7 @@ const p = PRODUCTS[0];
 
           <div class="info__cta">
             <button class="btn btn--accent btn--lg" type="button" id="detailQuote">Solicitar cotización <span aria-hidden="true">→</span></button>
-            <a class="link" href="tel:+520000000000">Llamar a un asesor</a>
+            <a class="link" href="#contacto">Preparar mi proyecto</a>
           </div>
           <button class="document-link" id="openDocuments" type="button">Consultar documentación técnica <span aria-hidden="true">↗</span></button>
         </div>

@@ -4,14 +4,14 @@ import ProductCard from './ProductCard.astro';
 ---
     <section class="catalog" id="catalogo">
       <div class="wrap">
-        <div class="catalog__head">
-          <h2 data-split>Todo para tu línea de producción</h2>
+        <p class="eyebrow">02 / CATÁLOGO INDUSTRIAL</p><div class="catalog__head">
+          <h2 data-reveal>Componentes que hacen la diferencia.</h2>
           <p data-reveal>Filtra por categoría, busca por nombre y agrega a tu cotización lo que necesites.</p>
         </div>
         <div class="toolbar" data-reveal>
           <div class="chips" id="chips" role="group" aria-label="Categorías">{CATS.map(c => <button class="chip" type="button" data-cat={c.id} aria-pressed={c.id === 'todos'}>{c.label}</button>)}</div>
           <label class="sort">Ordenar
-            <select id="sort"><option value="rel">Destacados</option><option value="rating">Mejor valorados</option><option value="az">Nombre A–Z</option></select>
+            <select id="sort"><option value="rel">Destacados</option><option value="az">Nombre A–Z</option></select>
           </label>
         </div>
         <p class="result" id="result" aria-live="polite">{PRODUCTS.length} productos</p>

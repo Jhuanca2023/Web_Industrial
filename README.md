@@ -1,6 +1,6 @@
-# Web Industrial · PruebaWeb
+# KRONO Industrial
 
-Plantilla industrial completa migrada a **Astro 7**. Sitio estático responsive con catálogo de 15 productos, búsqueda, categorías, ordenamiento, detalle, galería, especificaciones, biblioteca de documentos y cotización de prueba.
+Plantilla industrial completa migrada a **Astro 7**. Sitio estático responsive con catálogo de 15 productos, búsqueda, categorías, ordenamiento, detalle, galería, especificaciones, biblioteca de documentos y solicitudes descargables. Identidad conceptual de portafolio con fotografía industrial y animación GSAP.
 
 ## Desarrollo
 
@@ -8,7 +8,7 @@ Requiere **Node.js 24** y npm. La versión también está indicada en `.nvmrc`.
 
 ```sh
 npm ci
-npm run dev
+npm run dev -- --background
 ```
 
 Para comprobar la versión de producción:
@@ -57,14 +57,16 @@ docs/             Notas y referencias
 - Pestañas accesibles: presentación, especificaciones y documentos.
 - Filtros y búsqueda de documentos, apertura y descarga de PDF locales.
 - Descarga de un resumen técnico TXT de cada producto, distinguido de los PDF oficiales.
-- Cotización con selección persistida en el navegador y formulario de demostración con validación nativa.
-- Formulario de contacto de prueba, sin envío ni almacenamiento de sus campos.
-- Carrusel principal, animaciones GSAP y desplazamiento Lenis, incluidos en el bundle.
+- Cotización con selección persistida en el navegador y descarga de solicitud TXT con validación nativa.
+- Formulario de proyecto con descarga local de la consulta, sin envío ni almacenamiento de sus campos.
+- Hero fotográfico, revelados y parallax con GSAP ScrollTrigger; Lenis solo con puntero preciso.
 - Fuentes locales y botón de regreso al inicio con progreso de lectura.
 - Soporte de movimiento reducido y navegación por teclado.
 
-## Alcance de la prueba
+## Identidad y alcance
 
-Los formularios **no envían datos** y no requieren backend. Los datos de contacto, valoraciones y cifras de demostración no deben interpretarse como afirmaciones comerciales verificadas. Las imágenes y documentos originales tienen sus propias condiciones; las referencias están en `docs/REFERENCIAS.md`.
+KRONO Industrial es una marca conceptual para un proyecto de portafolio. El logotipo K es SVG original. No se presentan clientes, valoraciones ni estadísticas ficticias. La fotografía de contexto ilustra procesos industriales y no representa instalaciones propias de KRONO.
 
-La propuesta conserva el diseño aprobado: fondos neutros para mostrar los equipos, naranja para acciones, una ficha de producto con datos prioritarios y documentación organizada en pestañas. No se utilizó un prototipo adicional en esta migración. El tiempo total de la prueba debe incluir el trabajo previo de diseño y la revisión posterior.
+Los formularios descargan documentos TXT para compartir manualmente; no envían correos ni requieren backend. La selección de productos se conserva en localStorage, pero los datos personales del formulario no se guardan. Antes de un lanzamiento comercial se debe conectar un canal de atención real y confirmar disponibilidad y especificaciones con el proveedor.
+
+El diseño utiliza grafito, piedra y naranja, fotos grandes, composiciones asimétricas y una biblioteca técnica. Las animaciones respetan movimiento reducido. El único indicador de lectura es el anillo del botón de volver arriba. Fuentes de imágenes y documentación en docs/REFERENCIAS.md.

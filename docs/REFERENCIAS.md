@@ -14,3 +14,16 @@ Fotografías de contexto de Wikimedia Commons, recortadas visualmente mediante C
 Tipografía: Plus Jakarta Sans, distribuida mediante `@fontsource/plus-jakarta-sans` con sus archivos de licencia en el paquete. Dependencias: Astro, GSAP y Lenis; consultar las licencias de sus respectivos paquetes.
 
 No se aplica una licencia única sobre fotografías, fichas, documentación e imágenes de terceros.
+
+## Fotografía añadida para KRONO
+
+Fotografías gratuitas de Pexels, descargadas localmente y encuadradas mediante CSS. Uso sujeto a la licencia de Pexels: https://www.pexels.com/license/. No representan instalaciones de KRONO.
+
+- robotica.jpg: Ludovic Delot, https://www.pexels.com/photo/robots-are-working-in-a-factory-with-a-machine-18471441/
+- ensamble.jpg: Hyundai Motor Group, https://www.pexels.com/photo/assembling-machines-in-factory-19233057/
+- equipo.jpg: Rolled Alloys Specialty Metal Supplier, https://www.pexels.com/photo/machinery-in-factory-8973132/
+- metal.jpg: https://www.pexels.com/photo/industrial-machinery-in-factory-8973680/
+- precision.jpg: https://www.pexels.com/photo/heavy-machinery-in-a-machine-shop-8865189/
+- soldadura.jpg: https://www.pexels.com/photo/close-up-shot-of-a-welding-machine-5845902/
+
+Referencias de arquitectura de información: https://www.kuka.com/en-us y https://www.trumpf.com/en_US/products/machines-systems/. Referencias visuales principales: las dos imágenes aportadas por el usuario. No se copió código ni identidad de estas empresas.

@@ -1,30 +1,22 @@
-<!-- Banner superior -->
-  <div class="topbar" role="region" aria-label="Avisos">
-    <div class="topbar__msgs" id="topMsgs">
-      <p>Entrega inmediata en productos seleccionados</p>
-      <p>Garantía y asesoría técnica en cada pedido</p>
-      <p>Solicita tu cotización y te respondemos en 24 h</p>
-    </div>
-  </div>
-
+---
+import Brand from "./Brand.astro";
+---
   <header class="nav" id="nav">
-    <a class="logo" href="#inicio" aria-label="PruebaWeb, inicio">
-      <svg class="logo__mark" width="36" height="36" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="10" fill="#ff5a1f"/><path d="M10 22V10h6.2a3.4 3.4 0 010 6.8H10" stroke="#101317" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 10v12" stroke="#101317" stroke-width="3" stroke-linecap="round"/></svg>
-      <span>Prueba<b>Web</b></span>
-    </a>
+    <a class="logo" href="#inicio" aria-label="KRONO Industrial, inicio"><Brand /></a>
 
     <form class="search" id="searchForm" role="search" autocomplete="off">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
-      <input id="searchInput" type="search" placeholder="Busca controladores, resistencias, sensores…" aria-label="Buscar productos" aria-controls="suggest" aria-expanded="false" role="combobox">
+      <input id="searchInput" type="search" placeholder="Buscar un producto…" aria-label="Buscar productos" aria-controls="suggest" aria-expanded="false" role="combobox">
       <ul class="suggest" id="suggest" role="listbox" hidden></ul>
     </form>
 
     <nav class="nav__links" aria-label="Principal">
-      <a href="#catalogo">Catálogo</a>
-      <a href="#crecimiento">Nosotros</a>
+      <a href="#catalogo">Productos</a>
+      <a href="#soluciones">Soluciones</a><a href="#crecimiento">Nosotros</a>
       <a href="#contacto">Contacto</a>
     </nav>
 
+    <details class="mobile-menu"><summary aria-label="Abrir menú de navegación">☰</summary><nav aria-label="Navegación móvil"><a href="#soluciones">Soluciones ↗</a><a href="#catalogo">Productos ↗</a><a href="#crecimiento">Nosotros ↗</a><a href="#industria">Industria ↗</a><a href="#contacto">Tu proyecto ↗</a></nav></details>
     <button class="btn btn--dark nav__quote" type="button" id="openQuote">
       <span>Cotizar</span><em class="count" id="quoteCount" aria-label="productos en tu cotización">0</em>
     </button>

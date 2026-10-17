@@ -1,0 +1,8 @@
+---
+const solutions = [
+ {n:'01',title:'Temperatura bajo control.',text:'Controladores y resistencias para mantener estable cada etapa de tu proceso.',img:'robotica.jpg',alt:'Celda industrial con brazos robóticos y controladores',cat:'resistencias'},
+ {n:'02',title:'La precisión empieza aquí.',text:'Sensores y transductores para convertir las variables de tu operación en información.',img:'precision.jpg',alt:'Herramienta de mecanizado de precisión',cat:'sensores'},
+ {n:'03',title:'Cada ciclo, conectado.',text:'Componentes de colada caliente y control de inyección para tu línea de producción.',img:'ensamble.jpg',alt:'Línea automatizada de ensamblaje industrial',cat:'controladores'}
+];
+---
+<section class="solutions wrap" id="soluciones"><div class="section-intro"><p class="eyebrow">01 / SOLUCIONES</p><h2 data-reveal>Tu proceso.<br />Nuestra razón de ser.</h2><p data-reveal>Del calor a la medición. Explora los componentes que conectan la ingeniería con lo que sucede en tu planta.</p></div><div class="solution-grid">{solutions.map(s => <a class="solution" href="#catalogo" data-filter={s.cat}><div class="photo-reveal"><img src={'/img/'+s.img} alt={s.alt} width="900" height="1100" loading="lazy" /></div><div class="solution-label"><span>{s.n} /</span><span aria-hidden="true">↗</span></div><h3>{s.title}</h3><p>{s.text}</p></a>)}</div></section>
