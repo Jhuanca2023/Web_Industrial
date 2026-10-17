@@ -39,7 +39,7 @@ src/
   components/     Cabecera, hero, tarjetas, catálogo, detalle, contacto, pie y cotización
   data/           Datos compartidos de categorías y productos
   layouts/        Documento HTML y fuentes locales
-  pages/          Página principal Astro
+  pages/          Inicio, Soluciones, Nosotros y Contacto
   scripts/        Interacciones, cotización y animaciones
   styles/         Sistema visual y estilos responsive
 public/
@@ -50,6 +50,12 @@ docs/             Notas y referencias
 ```
 
 ## Funcionalidades
+
+- Cuatro páginas conectadas: `/`, `/soluciones/`, `/nosotros/` y `/contacto/`.
+- Selector visual de soluciones con fotografías animadas y enlaces al catálogo filtrado.
+- Página de marca con composición editorial, escena fija y símbolo animado al desplazarse.
+- Formulario guiado de proyecto que recupera los productos seleccionados en el catálogo.
+- Transiciones nativas entre páginas en navegadores compatibles; navegación convencional en los demás.
 
 - Catálogo renderizado en HTML durante la compilación, visible antes de ejecutar JavaScript.
 - Búsqueda tolerante a acentos, filtros por categoría y ordenamiento.

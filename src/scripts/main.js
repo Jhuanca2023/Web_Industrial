@@ -304,6 +304,8 @@ document.documentElement.classList.add('js');
     say("Consulta descargada. Lista para compartir.");
   });
 
+  const requestedCategory = new URLSearchParams(location.search).get('categoria');
+  if (CATS.some(c => c.id === requestedCategory)) state.cat = requestedCategory;
   renderGrid(false);
   renderQuote();
 

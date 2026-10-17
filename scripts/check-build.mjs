@@ -13,5 +13,10 @@ for (const file of await readdir(join(root,'docs'))) {
   const data = await readFile(join(root,'docs',file));
   assert.equal(data.subarray(0,5).toString(), '%PDF-', `${file} must be a PDF`);
 }
-for(const match of html.matchAll(/(?:src|href)="(\/[^"#?]+)(?:[?#][^"]*)?"/g)) await access(join(root,decodeURIComponent(match[1])));
-console.log(`Build verified: ${PRODUCTS.length} products, local assets, bundled JavaScript and all PDF files.`);
+for (const route of ['', 'soluciones', 'nosotros', 'contacto']) {
+  const page = await readFile(join(root,route,'index.html'),'utf8');
+  assert.equal((page.match(/<h1\b/g)||[]).length, 1, `${route || 'Home'} must have one main heading`);
+  assert.doesNotMatch(page, /localhost|127\.0\.0\.1/);
+  for(const match of page.matchAll(/(?:src|href)="(\/[^"#?]+)(?:[?#][^"]*)?"/g)) await access(join(root,decodeURIComponent(match[1])));
+}
+console.log(`Build verified: 4 pages, ${PRODUCTS.length} products, local assets, bundled JavaScript and all PDF files.`);

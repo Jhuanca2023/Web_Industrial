@@ -1,0 +1,13 @@
+---
+import Layout from './Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import BackToTop from '../components/BackToTop.astro';
+const {title,description} = Astro.props;
+---
+<Layout title={title} description={description}>
+ <PageHeader />
+ <main class="chapter-main" id="contenido"><slot /></main>
+ <SiteFooter /><BackToTop />
+ <script>import '../scripts/chapters.js';</script>
+</Layout>
