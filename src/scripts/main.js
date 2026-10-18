@@ -260,7 +260,7 @@ document.documentElement.classList.add('js');
 
   function downloadRequest(form, products = []) {
     const data = new FormData(form);
-    const lines = ['KRONO INDUSTRIAL — SOLICITUD', '', ...[...data].map(([key,value]) => key.toUpperCase()+': '+value), '', 'PRODUCTOS', ...products, '', 'Documento preparado localmente. Confirmar especificaciones y disponibilidad con el proveedor.'];
+    const lines = ['PROYECTO INDUSTRIAL — SOLICITUD', '', ...[...data].map(([key,value]) => key.toUpperCase()+': '+value), '', 'PRODUCTOS', ...products, '', 'Documento preparado localmente. Confirmar especificaciones y disponibilidad con el proveedor.'];
     const url = URL.createObjectURL(new Blob(['\ufeff', lines.join('\n')], {type:'text/plain;charset=utf-8'}));
     const a = document.createElement('a'); a.href = url; a.download = 'solicitud-krono.txt'; a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);

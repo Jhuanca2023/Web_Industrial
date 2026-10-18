@@ -74,6 +74,8 @@ docs/             Notas y referencias
 - Banner con tres fotografías, transiciones GSAP, zoom lento, selección manual y pausa. La reproducción automática se detiene fuera de pantalla, al enfocar sus controles o al ocultar la pestaña.
 - Presentación del controlador con recorte CSS, perspectiva al mover el puntero, flotación y una secuencia ligada al scroll. La escena se fija solo en escritorio; en móvil conserva el desplazamiento normal. Es una composición de fotografía con profundidad CSS, no un modelo 3D del fabricante.
 - Galería industrial de cuatro escenas con scroll-snap, arrastre de ratón, desplazamiento táctil, botones, indicadores y teclado.
+- Escena de control térmico con planos en perspectiva CSS 3D: selección de medición, control y actuación, separación de capas y respuesta al puntero. Es una representación conceptual con ilustraciones y fotografía, no un despiece real del equipo.
+- Historias de aplicación, guía de selección con PDF y contenido de industria y método en Nosotros.
 - Cinta de especialidades con control de pausa. Las animaciones decorativas se suspenden fuera del área visible.
 - Con movimiento reducido se mantienen imágenes, enlaces y controles, sin secuencias de scroll ni reproducción automática inicial.
 
@@ -81,8 +83,8 @@ La implementación está separada en `src/scripts/motion.js`, `src/styles/motion
 
 ## Identidad y alcance
 
-KRONO Industrial es una marca conceptual para un proyecto de portafolio. El logotipo K es SVG original. No se presentan clientes, valoraciones ni estadísticas ficticias. La fotografía de contexto ilustra procesos industriales y no representa instalaciones propias de KRONO.
+Krono es una marca conceptual para un proyecto de portafolio. El logotipo utilizado es la imagen proporcionada por el autor del proyecto, conservada en `public/img/logo-krono.png`. Sustituye a la identidad tipográfica anterior en cabecera, pie y Nosotros. No se presentan clientes, valoraciones ni estadísticas ficticias. La fotografía de contexto ilustra procesos industriales y no representa instalaciones propias.
 
 Los formularios descargan documentos TXT para compartir manualmente; no envían correos ni requieren backend. La selección de productos se conserva en localStorage, pero los datos personales del formulario no se guardan. Antes de un lanzamiento comercial se debe conectar un canal de atención real y confirmar disponibilidad y especificaciones con el proveedor.
 
-El diseño utiliza grafito, piedra y naranja, fotos grandes, composiciones asimétricas y una biblioteca técnica. Las animaciones respetan movimiento reducido. El único indicador de lectura es el anillo del botón de volver arriba. Fuentes de imágenes y documentación en docs/REFERENCIAS.md.
+El diseño utiliza rojo, grafito y piedra, fotos grandes, composiciones asimétricas y una biblioteca técnica. Las animaciones respetan movimiento reducido. El único indicador de lectura es el anillo del botón de volver arriba. Fuentes de imágenes y documentación en docs/REFERENCIAS.md.

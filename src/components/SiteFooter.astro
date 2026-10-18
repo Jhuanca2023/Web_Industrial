@@ -1,16 +1,16 @@
 ---
 import Brand from "./Brand.astro";
 ---
-<footer class="foot">
+<footer class="foot foot--renewed">
     <div class="wrap">
-      <div class="foot__top">
-        <a class="logo logo--light" href="/" aria-label="KRONO Industrial, inicio"><Brand /></a>
+      <div class="footer-invitation"><p>EL SIGUIENTE MOVIMIENTO ES TUYO</p><a href="/contacto/">Hablemos de<br />tu industria.<span aria-hidden="true">↗</span></a></div><div class="foot__top">
+        <p class="footer-purpose">Componentes que conectan.<br />Información que orienta.<br />Ideas que se ponen en marcha.</p>
         <nav class="foot__cols" aria-label="Pie">
           <div><h3>Catálogo</h3><a href="/?categoria=controladores#catalogo" data-filter="controladores">Controladores</a><a href="/?categoria=resistencias#catalogo" data-filter="resistencias">Resistencias</a><a href="/?categoria=sensores#catalogo" data-filter="sensores">Sensores</a><a href="/?categoria=colada#catalogo" data-filter="colada">Colada y accesorios</a></div>
-          <div><h3>Empresa</h3><a href="/nosotros/">Nosotros</a><a href="/contacto/">Contacto</a></div>
+          <div><h3>Explorar</h3><a href="/soluciones/">Soluciones</a><a href="/nosotros/">Nosotros</a><a href="/contacto/">Contacto</a></div>
         </nav>
       </div>
-      <p class="foot__name" aria-hidden="true">KRONO®</p>
-      <div class="foot__bottom"><p>KRONO Industrial · Proyecto conceptual de portafolio · 2026</p><a href="#inicio">Volver arriba ↑</a></div>
+      <a class="foot__name footer-brand" href="/" aria-label="Ir al inicio"><Brand /></a>
+      <div class="foot__bottom"><p>Ingeniería aplicada. Atención al detalle.</p><span>Proyecto de portafolio · 2026</span><a href="#inicio">Volver arriba ↑</a></div>
     </div>
   </footer>

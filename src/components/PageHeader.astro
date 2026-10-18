@@ -1,10 +1,10 @@
 ---
 import Brand from './Brand.astro';
 const path = Astro.url.pathname;
-const links = [{href:'/',label:'Inicio'},{href:'/soluciones/',label:'Soluciones'},{href:'/nosotros/',label:'KRONO'},{href:'/contacto/',label:'Tu proyecto'}];
+const links = [{href:'/',label:'Inicio'},{href:'/soluciones/',label:'Soluciones'},{href:'/nosotros/',label:'Nosotros'},{href:'/contacto/',label:'Tu proyecto'}];
 ---
 <header class="chapter-nav" id="inicio">
- <a class="logo" href="/" aria-label="KRONO Industrial, inicio"><Brand /></a>
+ <a class="logo" href="/" aria-label="Ir al inicio"><Brand /></a>
  <nav aria-label="Principal">{links.map(l=><a href={l.href} aria-current={path===l.href?'page':undefined}>{l.label}</a>)}</nav>
  <a class="btn btn--dark" href="/#catalogo">Explorar productos ↗</a>
  <details class="chapter-menu"><summary aria-label="Abrir navegación">☰</summary><nav aria-label="Navegación móvil">{links.map(l=><a href={l.href}>{l.label}</a>)}<a href="/#catalogo">Productos ↗</a></nav></details>

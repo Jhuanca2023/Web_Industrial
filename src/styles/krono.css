@@ -18,22 +18,9 @@
 .btn--accent {
   color:#171a1b
 }
-.brand-mark {
-  color:var(--accent);
-  flex:none
-}
-.brand-type {
-  font-size:27px;
-  letter-spacing:-1px;
-  line-height:1
-}
-.brand-type small {
-  display:block;
-  font-size:9px;
-  letter-spacing:3.5px;
-  margin-top:5px;
-  font-weight:600
-}
+
+
+
 .nav {
   background:#f2f2ef;
   height:86px;
@@ -632,17 +619,9 @@
   height:35px;
   width:100%
 }
-.brand-mark {
-  width:32px;
-  height:32px
-}
-.brand-type {
-  font-size:22px
-}
-.brand-type small {
-  font-size:7px;
-  letter-spacing:3px
-}
+
+
+
 .industrial-hero {
   min-height:650px;
   height:calc(100svh - 112px);
@@ -987,13 +966,8 @@
 }
 
 @media(max-width:359px) {
-  .brand-type {
-  font-size:19px
-}
-.brand-mark {
-  width:28px;
-  height:28px
-}
+
+
 .mobile-menu {
   right:131px
 }

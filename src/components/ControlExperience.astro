@@ -1,0 +1,41 @@
+<section class="control-experience" aria-labelledby="controlHeading">
+ <div class="wrap control-intro"><p class="eyebrow">EL PROCESO, POR DENTRO</p><h2 id="controlHeading" data-chapter-reveal>Tres funciones.<br /><em>Un mismo sistema.</em></h2><p>Medir lo que sucede. Compararlo con el objetivo. Actuar sobre el proceso. Descubre cómo se relacionan los componentes de un control térmico.</p></div>
+ <div class="wrap control-layout">
+  <div class="control-lab"><span class="lab-caption">VISTA CONCEPTUAL / CONTROL TÉRMICO</span>
+   <div class="lab-perspective" aria-hidden="true"><div class="lab-assembly">
+    <div class="lab-plane lab-plane--back"><span>03 / ACTUACIÓN</span><svg viewBox="0 0 300 220"><path d="M35 170V55Q35 25 65 25T95 55v110q0 30 30 30t30-30V55q0-30 30-30t30 30v110q0 30 30 30t30-30V55" fill="none" stroke="currentColor" stroke-width="12"/><path d="M35 170v35M275 55V10" stroke="#777" stroke-width="9"/></svg></div>
+    <div class="lab-plane lab-plane--middle"><span>02 / CONTROL</span><div class="lab-controller"><img src="/img/euro-heaters-accesorios-0014.jpeg" alt="" width="960" height="960" loading="lazy" /></div></div>
+    <div class="lab-plane lab-plane--front"><span>01 / MEDICIÓN</span><svg viewBox="0 0 300 220"><path d="M65 175L200 40" stroke="#9ca5a8" stroke-width="20"/><path d="M65 175L200 40" stroke="#e4e7e8" stroke-width="6"/><path d="M200 40l22-22 25 25-22 22z" fill="#444c50"/><path d="M235 32q65 40 20 95t15 70" stroke="#d9211c" stroke-width="5" fill="none"/></svg></div>
+   </div></div>
+   <div class="lab-controls" aria-label="Cambiar la vista del sistema"><button type="button" data-lab-view="perspective" aria-pressed="true">Perspectiva ↗</button><button type="button" data-lab-view="spread" aria-pressed="false">Separar capas +</button></div>
+  </div>
+  <div class="control-steps">
+   <button type="button" class="control-step is-active" data-control-step="0" aria-pressed="true"><span>01</span><strong>Medir</strong><span class="control-description">El sensor registra la temperatura del proceso y entrega una señal al controlador.</span></button>
+   <button type="button" class="control-step" data-control-step="1" aria-pressed="false"><span>02</span><strong>Comparar</strong><span class="control-description">El controlador compara la lectura con el valor deseado para determinar el ajuste.</span></button>
+   <button type="button" class="control-step" data-control-step="2" aria-pressed="false"><span>03</span><strong>Actuar</strong><span class="control-description">La salida de control regula el aporte de energía al elemento calefactor.</span></button>
+   <a class="link" href="/?categoria=controladores#catalogo">Ver equipos de control →</a>
+  </div>
+ </div>
+</section>
+<script>
+ import {gsap} from 'gsap';
+ import {ScrollTrigger} from 'gsap/ScrollTrigger';
+ gsap.registerPlugin(ScrollTrigger);
+ const scene=document.querySelector('.control-experience');
+ if(scene){
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const assembly=scene.querySelector('.lab-assembly');
+  const planes=[...scene.querySelectorAll('.lab-plane')];
+  const steps=[...scene.querySelectorAll('[data-control-step]')];
+  let spread=false;
+  const position=()=>planes.forEach((p,i)=>gsap.to(p,{x:spread?(i-1)*100:0,y:spread?(1-i)*25:0,z:(i-1)*(spread?140:65),duration:reduce?0:.7,ease:'power3.out',overwrite:true}));
+  position();
+  steps.forEach((button,i)=>button.addEventListener('click',()=>{steps.forEach((b,j)=>{b.classList.toggle('is-active',i===j);b.setAttribute('aria-pressed',String(i===j));});planes.forEach((p,j)=>p.classList.toggle('is-selected',j===2-i));}));
+  planes[2].classList.add('is-selected');
+  scene.querySelectorAll('[data-lab-view]').forEach(button=>button.addEventListener('click',()=>{spread=button.dataset.labView==='spread';scene.querySelectorAll('[data-lab-view]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));position();}));
+  if(!reduce){
+   gsap.fromTo(assembly,{rotateY:-28,rotateX:12},{rotateY:12,rotateX:-6,ease:'none',scrollTrigger:{trigger:scene,start:'top bottom',end:'bottom top',scrub:1.2}});
+   if(matchMedia('(hover:hover) and (pointer:fine)').matches){const lab=scene.querySelector('.lab-perspective');lab.addEventListener('pointermove',e=>{const r=lab.getBoundingClientRect();gsap.to(lab,{rotateY:((e.clientX-r.left)/r.width-.5)*12,rotateX:((e.clientY-r.top)/r.height-.5)*-10,duration:.6,overwrite:true});});lab.addEventListener('pointerleave',()=>gsap.to(lab,{rotateY:0,rotateX:0,duration:.6,overwrite:true}));}
+  }
+ }
+</script>

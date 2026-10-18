@@ -28,7 +28,7 @@ if(form){
  if(selection.length){const list=$('#briefProducts');list.replaceChildren(...selection.map(p=>{const li=document.createElement('li');li.textContent=p.name;return li;}));}
  form.addEventListener('submit',e=>{
   e.preventDefault();const data=new FormData(form);
-  const text=['KRONO INDUSTRIAL — MI PROYECTO','',...[...data].map(([key,value])=>`${key.toUpperCase()}: ${value}`),'','PRODUCTOS SELECCIONADOS',...selection.map(p=>p.name),'','Confirmar requisitos, compatibilidad y disponibilidad con el proveedor.'].join('\n');
+  const text=['PROYECTO INDUSTRIAL — MI PROYECTO','',...[...data].map(([key,value])=>`${key.toUpperCase()}: ${value}`),'','PRODUCTOS SELECCIONADOS',...selection.map(p=>p.name),'','Confirmar requisitos, compatibilidad y disponibilidad con el proveedor.'].join('\n');
   const url=URL.createObjectURL(new Blob(['\ufeff',text],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=url;link.download='mi-proyecto-krono.txt';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   $('#briefStatus').textContent='Tu proyecto está listo. El documento se descargó para que puedas compartirlo.';
  });
